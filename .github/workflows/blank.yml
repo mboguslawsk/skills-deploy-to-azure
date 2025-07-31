@@ -7,20 +7,23 @@ on:
 jobs:
   comment:
     runs-on: ubuntu-latest
+    env:
+      COLUMN_ID: 12345678  # Replace this with your actual column ID
     steps:
       - name: Comment on issue and add to project
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            github.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: "🎉 You've created this issue comment using GitHub Script!!!"
-            })
-            github.projects.createCard({
-            column_id: {{columnID}},
-            content_id: context.payload.issue.id,
-            content_type: "Issue"
+            const columnID = process.env.COLUMN_ID;
+            await github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "🎉 You've created this issue comment using GitHub Script!!!"
+            });
+            await github.projects.createCard({
+              column_id: columnID,
+              content_id: context.payload.issue.id,
+              content_type: "Issue"
             });
