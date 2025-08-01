@@ -11,7 +11,7 @@ jobs:
       COLUMN_ID: 12345678  # Replace this with your actual column ID
     steps:
       - name: Comment on issue and add to project
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
